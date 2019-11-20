@@ -1,12 +1,13 @@
 {
   "name": "vue-collapsing-menu",
   "description": "this component is collapsing overflow menu, that add items into hidden dropdown menu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "anastasiia onishchuk <https://github.com/anastasiiaonishchuk>",
   "license": "MIT",
   "scripts": {
     "start": "webpack"
   },
+  "main": "src/main.js",
   "dependencies": {
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^2.6.10"

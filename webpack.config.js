@@ -25,11 +25,11 @@ module.exports = {
           },
       }),
   ],
-  entry: './main.js',
+  entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'vue-collapsing-menu.js'
   },
   module: {
     rules: [
