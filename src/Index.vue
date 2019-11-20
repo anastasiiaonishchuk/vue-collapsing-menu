@@ -51,7 +51,7 @@
       </div>
       <button v-if="hiddenCategories.length > 0" class="nav-bar-toggler" type="button"
               @click="showMore = !showMore; openCategory = ''">
-        <img src="show-more.svg" alt="">
+        <img src="assets/show-more.svg" alt="">
       </button>
     </div>
   </div>
@@ -231,7 +231,7 @@
       }
     }
     &__button {
-      background: transparent url("down-black-arrow.svg") center center no-repeat;
+      background: transparent url("/assets/down-black-arrow.svg") center center no-repeat;
       background-size: 14px;
       cursor: pointer;
       width: 24px;
