@@ -59,6 +59,7 @@
 
 <script>
   import imgShowMore from './assets/show-more.svg'
+
   export default {
     name: "VCollapsingMenu",
     props: ['navbar', 'externalPaddingMax', 'externalPaddingMin', 'componentKey'],
@@ -109,8 +110,9 @@
       },
       resize($this) {
         //sum of external paddings and margins
-        const clientWidth = this.componentKey ? document.querySelector('.nav-bar.' + this.componentKey).clientWidth - 60 :
-          document.querySelector('.nav-bar').clientWidth - 60;
+        const parentElem = this.componentKey ? document.querySelector('.nav-bar.' + this.componentKey)
+          : document.querySelector('.nav-bar'),
+          clientWidth = parentElem ? parentElem.clientWidth - 60 : 0;
         let cutWidth = window.innerWidth > 1024 ? this.externalPaddingMin : this.externalPaddingMax;
         for (let i in this.allCategories) {
           if (cutWidth + $this.allCategories[i].width < clientWidth) {
@@ -187,7 +189,7 @@
         &.has-child {
           padding-right: 12px;
         }
-        &:hover, &.open {
+        &:hover, &.open, &.router-link-active {
           color: $defaultActiveTextColor;
         }
         &.open {
@@ -245,10 +247,13 @@
     }
 
     &-toggler {
-      padding: 19px 21px 0;
+      padding: 19px 17px 0;
       background-color: transparent;
+      @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        padding: 17px 17px 0;
+      }
       img {
-        width: 25px;
+        width: 24px;
       }
     }
 
@@ -277,6 +282,5 @@
         }
       }
     }
-
   }
 </style>
