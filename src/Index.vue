@@ -51,14 +51,14 @@
       </div>
       <button v-if="hiddenCategories.length > 0" class="nav-bar-toggler" type="button"
               @click="showMore = !showMore; openCategory = ''">
-        <img src="assets/show-more.svg" alt="">
+        <img :src="showMoreImage" alt="">
       </button>
     </div>
   </div>
 </template>
 
 <script>
-
+  import imgShowMore from './assets/show-more.svg'
   export default {
     name: "VCollapsingMenu",
     props: ['navbar', 'externalPaddingMax', 'externalPaddingMin', 'componentKey'],
@@ -69,6 +69,7 @@
         openCategory: '',
         allCategories: this.navbar || [],
         showMore: false,
+        showMoreImage: imgShowMore,
       }
     },
     computed: {
@@ -231,7 +232,7 @@
       }
     }
     &__button {
-      background: transparent url("/assets/down-black-arrow.svg") center center no-repeat;
+      background: transparent url("./assets/down-black-arrow.svg") center center no-repeat;
       background-size: 14px;
       cursor: pointer;
       width: 24px;
