@@ -14,6 +14,10 @@
         <button v-if="obj.hasChildren" class="nav-bar__button" :class="obj.name === openCategory ? 'open' : ''"
                 @click.prevent="showMoreAction(obj)"></button>
       </router-link>
+      <div v-else-if="obj.html" v-html="obj.html"
+           :class="obj.name === openCategory ? 'open' : ''"
+           @click="openCategory = obj.name"></div>
+
       <div v-if="obj.hasChildren" class="nav-bar__link__open"
            :class="obj.name === openCategory ? 'open' : ''">
         <a v-if="obj.link" v-for="childObj in obj.children" :key="childObj.name"
@@ -40,6 +44,10 @@
                     :class="obj.name === openCategory ? 'open' : ''"
                     @click.prevent="openCategory === obj.name ? openCategory = '' : openCategory = obj.name"></button>
           </router-link>
+          <div v-else-if="obj.html" v-html="obj.html"
+               :class="obj.name === openCategory ? 'open' : ''"
+               @click="openCategory = obj.name"></div>
+
           <div class="nav-bar__link__open" :class="obj.name === openCategory ? 'open' : ''">
             <a v-if="obj.link" v-for="childObj in obj.children" :key="childObj.name"
                :href="childObj.link">{{childObj.name}}</a>
@@ -247,10 +255,11 @@
     }
 
     &-toggler {
-      padding: 19px 17px 0;
+      padding: 17px 17px 0;
       background-color: transparent;
-      @media screen and (-webkit-min-device-pixel-ratio: 0) {
-        padding: 17px 17px 0;
+      @media screen and (-webkit-min-device-pixel-ratio:0)
+      and (min-resolution:.001dpcm) {
+        padding: 19px 17px 0;
       }
       img {
         width: 24px;
