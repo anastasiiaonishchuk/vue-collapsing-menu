@@ -1,25 +1,25 @@
 <template>
-  <div class="nav-bar" :class="componentKey ? componentKey : ''"
+  <div class="nav-bar" :class="{componentKey: componentKey}"
        v-if="shownCategories.length > 0" @click="clickClose($event)">
     <div v-for="obj in shownCategories" class="nav-bar__link" :key="obj.name">
-      <a v-if="obj.link" :href="obj.link" :class="obj.name === openCategory ? 'open' : ''">
+      <a v-if="obj.link" :href="obj.link" :class="{'open': obj.name === openCategory}">
         {{obj.name}}
         <button v-if="obj.hasChildren" class="nav-bar__button"
-                :class="obj.name === openCategory ? 'open' : ''"
+                :class="{'open': obj.name === openCategory}"
                 @click.prevent="showMoreAction(obj)"></button>
       </a>
       <router-link v-else-if="obj.path" :to="obj.path"
-                   :class="obj.name === openCategory ? 'open' : ''">
+                   :class="{'open': obj.name === openCategory}">
         {{obj.name}}
-        <button v-if="obj.hasChildren" class="nav-bar__button" :class="obj.name === openCategory ? 'open' : ''"
+        <button v-if="obj.hasChildren" class="nav-bar__button" :class="{'open': obj.name === openCategory}"
                 @click.prevent="showMoreAction(obj)"></button>
       </router-link>
       <div v-else-if="obj.html" v-html="obj.html"
-           :class="obj.name === openCategory ? 'open' : ''"
+           :class="{'open': obj.name === openCategory}"
            @click="openCategory = obj.name"></div>
 
       <div v-if="obj.hasChildren" class="nav-bar__link__open"
-           :class="obj.name === openCategory ? 'open' : ''">
+           :class="{'open': obj.name === openCategory}">
         <a v-if="obj.link" v-for="childObj in obj.children" :key="childObj.name"
            :href="childObj.link">{{childObj.name}}</a>
         <router-link v-else-if="obj.path" v-for="childObj in obj.children" :key="childObj.name"
@@ -29,26 +29,26 @@
     </div>
     <div class="nav-bar__hidden">
       <div class="nav-bar__hidden-categories" v-if="hiddenCategories.length > 0"
-           :class="showMore ? 'show' : ''">
+           :class="{'show': showMore}">
         <div v-for="obj in hiddenCategories" :key="obj.name"
              class="nav-bar__link" :class="showMore ? 'show' : 'hide'">
-          <a v-if="obj.link" :href="obj.link" :class="obj.name === openCategory ? 'open' : ''">
+          <a v-if="obj.link" :href="obj.link" :class="{'open': obj.name === openCategory}">
             {{obj.name}}
             <button v-if="obj.hasChildren" class="nav-bar__button"
-                    :class="obj.name === openCategory ? 'open' : ''"
-                    @click.prevent="openCategory === obj.name ? openCategory = '' : openCategory = obj.name"></button>
+                    :class="{'open': obj.name === openCategory}"
+                    @click.prevent="openCategory = (openCategory === obj.name) ? '' : obj.name"></button>
           </a>
-          <router-link v-else-if="obj.path" :to="obj.path" :class="obj.name === openCategory ? 'open' : ''">
+          <router-link v-else-if="obj.path" :to="obj.path" :class="{'open': obj.name === openCategory}">
             {{obj.name}}
             <button v-if="obj.hasChildren" class="nav-bar__button"
-                    :class="obj.name === openCategory ? 'open' : ''"
-                    @click.prevent="openCategory === obj.name ? openCategory = '' : openCategory = obj.name"></button>
+                    :class="{'open': obj.name === openCategory}"
+                    @click.prevent="openCategory = (openCategory === obj.name) ? '' : obj.name"></button>
           </router-link>
           <div v-else-if="obj.html" v-html="obj.html"
-               :class="obj.name === openCategory ? 'open' : ''"
+               :class="{'open': obj.name === openCategory}"
                @click="openCategory = obj.name"></div>
 
-          <div class="nav-bar__link__open" :class="obj.name === openCategory ? 'open' : ''">
+          <div class="nav-bar__link__open" :class="{'open': obj.name === openCategory}">
             <a v-if="obj.link" v-for="childObj in obj.children" :key="childObj.name"
                :href="childObj.link">{{childObj.name}}</a>
             <router-link v-else-if="obj.path" v-for="childObj in obj.children" :key="childObj.name"
@@ -120,8 +120,10 @@
         //sum of external paddings and margins
         const parentElem = this.componentKey ? document.querySelector('.nav-bar.' + this.componentKey)
           : document.querySelector('.nav-bar'),
-          clientWidth = parentElem ? parentElem.clientWidth - 60 : 0;
-        let cutWidth = window.innerWidth > 1024 ? this.externalPaddingMin : this.externalPaddingMax;
+          showMoreButtonWidth = 60, 
+          clientWidth = parentElem ? parentElem.clientWidth - showMoreButtonWidth : 0,
+          mediaQueryBorderValue = 1024;
+        let cutWidth = window.innerWidth > mediaQueryBorderValue ? this.externalPaddingMin : this.externalPaddingMax;
         for (let i in this.allCategories) {
           if (cutWidth + $this.allCategories[i].width < clientWidth) {
             $this.shownCategories.push($this.allCategories[i]);
@@ -133,8 +135,7 @@
         }
       },
       showMoreAction(obj) {
-        this.openCategory === obj.name ? this.openCategory = '' :
-          this.openCategory = obj.name;
+        this.openCategory = (this.openCategory === obj.name)  ?  '' : obj.name;
         this.showMore = false;
       }
     },
